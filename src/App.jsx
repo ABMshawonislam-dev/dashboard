@@ -7,12 +7,13 @@ import {
 import Error from "./components/Error";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import AddProduct from "./components/AddProduct";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
         <Route path="/" element={<Home />}>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/addproduct" element={<AddProduct />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
       </Route>

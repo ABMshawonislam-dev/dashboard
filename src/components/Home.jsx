@@ -24,7 +24,7 @@ const items = [
     getItem("Users", "2"),
   ]),
   getItem("Product", "sub2", <AppstoreOutlined />, [
-    getItem("Add Product", "3"),
+    getItem("Add Product", "/addproduct"),
     getItem("All Products", "4"),
   ]),
   {
@@ -68,7 +68,7 @@ const Home = () => {
             items={items}
           />
         </Col>
-        <Col span={18}>
+        <Col span={14}>
           <Outlet />
         </Col>
       </Row>
