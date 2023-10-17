@@ -1,26 +1,9 @@
-import React, { useState } from "react"; // Import useState
+import React, { useEffect, useState } from "react"; // Import useState
 import { Input, Select, Tag } from "antd";
 import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
-const options = [
-  {
-    value: "gold",
-  },
-  {
-    value: "lime",
-  },
-  {
-    value: "green",
-  },
-  {
-    value: "cyan",
-  },
-  {
-    value: "shawon",
-  },
-];
+import axios from "axios";
 
 const tagRender = (props) => {
   const { label, value, closable, onClose } = props;
@@ -49,6 +32,39 @@ const AddProduct = () => {
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
   };
+
+  useEffect(() => {
+    async function allvariant() {
+      let data = await axios.get(
+        "http://localhost:8000/api/v1/product/allvariant"
+      );
+      console.log(data.data);
+    }
+    allvariant();
+  }, []);
+
+  const options = [
+    {
+      value: "gold",
+      label: "one",
+    },
+    {
+      value: "lime",
+      label: "two",
+    },
+    {
+      value: "green",
+      label: "three",
+    },
+    {
+      value: "cyan",
+      label: "four",
+    },
+    {
+      value: "shawon",
+      label: "five",
+    },
+  ];
 
   return (
     <>

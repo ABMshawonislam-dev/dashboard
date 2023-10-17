@@ -9,6 +9,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import AddProduct from "./components/AddProduct";
 import AllProduct from "./components/AllProduct";
+import AllVariant from "./components/AllVariant";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />}>
           <Route path="/addproduct" element={<AddProduct />}></Route>
           <Route path="/allproduct" element={<AllProduct />}></Route>
+          <Route path="/allvariant" element={<AllVariant />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
       </Route>
