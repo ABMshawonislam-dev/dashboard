@@ -2,11 +2,12 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { Space, Table, Tag, Button } from "antd";
+import { Space, Table, Tag, Button, Alert } from "antd";
 
 const AllProduct = () => {
   let [allpro, setAllPro] = useState([]);
   let [allprolist, setAllProList] = useState([]);
+  let [successmsg, setSuccessmsg] = useState("");
 
   useEffect(() => {
     async function allpro() {
@@ -16,8 +17,9 @@ const AllProduct = () => {
       console.log(data.data);
 
       let arr = [];
-      data.data.map((item) => {
+      data.data.map((item, index) => {
         arr.push({
+          serial: index + 1,
           key: item._id,
           name: item.name,
           image:
@@ -30,7 +32,25 @@ const AllProduct = () => {
     allpro();
   }, []);
 
+  let handleDelete = async (id) => {
+    console.log("Delete", id);
+
+    let data = await axios.post(
+      "http://localhost:8000/api/v1/product/deletproduct",
+      {
+        id: id,
+      }
+    );
+
+    setSuccessmsg(data);
+  };
+
   const columns = [
+    {
+      title: "Serial",
+      dataIndex: "serial",
+      key: "serial",
+    },
     {
       title: "Product Name",
       dataIndex: "name",
@@ -58,7 +78,11 @@ const AllProduct = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button type="primary">Edit</Button>
-          <Button type="primary" danger>
+          <Button
+            onClick={() => handleDelete(record.key)}
+            type="primary"
+            danger
+          >
             Delete
           </Button>
         </Space>
@@ -66,21 +90,14 @@ const AllProduct = () => {
     },
   ];
 
-  //   useEffect(() => {
-  //     let arr = [];
-  //     allpro.map((item) => {
-  //       arr.push({
-  //         key: item._id,
-  //         name: item.name,
-  //         image:
-  //           "https://www.startech.com.bd/image/cache/catalog/monitor/acer/ek220q-h3bi/ek220q-h3bi-05-500x500.webp",
-  //         store: item.store.stotename,
-  //       });
-  //     });
-  //     setAllProList(arr);
-  //   }, []);
+  return (
+    <>
+      {/* <Alert message="Success Text" type="success" /> */}
 
-  return <Table columns={columns} dataSource={allpro} />;
+      {/* {successmsg && <Alert message={successmsg} type="success" closable />} */}
+      <Table columns={columns} dataSource={allpro} />
+    </>
+  );
 };
 
 export default AllProduct;
