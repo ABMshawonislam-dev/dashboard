@@ -28,6 +28,7 @@ const tagRender = (props) => {
 
 const AddProduct = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [store, setStore] = useState([]);
 
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
@@ -66,6 +67,27 @@ const AddProduct = () => {
     },
   ];
 
+  useEffect(() => {
+    async function allstore() {
+      let arr = [];
+      let data = await axios.get(
+        "http://localhost:8000/api/v1/merchant/allstore"
+      );
+
+      console.log("store", data.data);
+
+      data.data.map((item) => {
+        arr.push({
+          value: item._id,
+          label: item.storename,
+        });
+      });
+
+      setStore(arr);
+    }
+    allstore();
+  }, []);
+
   return (
     <>
       <Input placeholder="Product Name" />
@@ -92,11 +114,12 @@ const AddProduct = () => {
       /> */}
       <h5>Select Product Store</h5>
       <Select
+        onChange={(e) => console.log(e)}
         mode="single"
         style={{
           width: "100%",
         }}
-        options={options}
+        options={store}
       />
     </>
   );
