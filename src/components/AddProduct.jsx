@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"; // Import useState
-import { Input, Select, Tag } from "antd";
-import { EditorState } from "draft-js";
+import { Input, Select, Tag, Button } from "antd";
+import { EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import axios from "axios";
+import draftToHtml from "draftjs-to-html";
 
 const tagRender = (props) => {
   const { label, value, closable, onClose } = props;
@@ -29,6 +30,8 @@ const tagRender = (props) => {
 const AddProduct = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [store, setStore] = useState([]);
+  const [name, setName] = useState("");
+  const [storename, setStorename] = useState("");
 
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
@@ -43,29 +46,6 @@ const AddProduct = () => {
     }
     allvariant();
   }, []);
-
-  const options = [
-    {
-      value: "gold",
-      label: "one",
-    },
-    {
-      value: "lime",
-      label: "two",
-    },
-    {
-      value: "green",
-      label: "three",
-    },
-    {
-      value: "cyan",
-      label: "four",
-    },
-    {
-      value: "shawon",
-      label: "five",
-    },
-  ];
 
   useEffect(() => {
     async function allstore() {
@@ -88,9 +68,25 @@ const AddProduct = () => {
     allstore();
   }, []);
 
+  let handleProductUpload = async () => {
+    let data = await axios.post(
+      "http://localhost:8000/api/v1/product/createproduct",
+      {
+        name: name,
+        description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+        store: storename,
+      }
+    );
+
+    console.log(data);
+  };
+
   return (
     <>
-      <Input placeholder="Product Name" />
+      <Input
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Product Name"
+      />
       <br />
       <br />
       <h5>Product Description</h5>
@@ -114,13 +110,18 @@ const AddProduct = () => {
       /> */}
       <h5>Select Product Store</h5>
       <Select
-        onChange={(e) => console.log(e)}
+        onChange={(e) => setStorename(e)}
         mode="single"
         style={{
           width: "100%",
         }}
         options={store}
       />
+      <br />
+      <br />
+      <Button onClick={handleProductUpload} type="primary">
+        Upload Product
+      </Button>
     </>
   );
 };
