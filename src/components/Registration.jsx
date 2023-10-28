@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Upload, Card, Alert, Space } from "antd";
+import { Button, Form, Input, Upload, Card, Alert, Space,Spin  } from "antd";
+
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 const Registration = () => {
   const [componentSize, setComponentSize] = useState("default");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loader, setLoader] = useState(false);
   const [regData, setRegData] = useState({
     fullName: "",
     email: "",
@@ -15,18 +18,28 @@ const Registration = () => {
   });
 
   let handleSubmit = async () => {
+    setLoader(true)
     let data = await axios.post(
       "http://localhost:8000/api/v1/auth/registration",
       {
-        fullName: "",
-        email: "",
-        password: "",
+        fullName: regData.fullName,
+        email: regData.email,
+        password: regData.password,
         avatar: "",
         facebookId: "",
         linkdinId: "",
       }
-    );
-    setError(data.data.error);
+    )
+
+    if(data.data.error){
+
+      setError(data.data.error);
+      setLoader(false)
+    }else{
+      setSuccess(data.data.success)
+      setLoader(false)
+    }
+
   };
 
   const normFile = (e) => {
@@ -35,6 +48,14 @@ const Registration = () => {
     }
     return e?.fileList;
   };
+
+  let handleFormData = (e)=>{
+
+    setRegData({...regData, [e.target.name]:e.target.value})
+
+  }
+
+
   return (
     <Card
       title="Registration"
@@ -46,6 +67,7 @@ const Registration = () => {
       }}
     >
       {error && <Alert message={error} type="error" showIcon />}
+      {success && <Alert message={success} type="success" showIcon />}
       <Form
         labelCol={{
           span: 12,
@@ -61,13 +83,13 @@ const Registration = () => {
         }}
       >
         <Form.Item label="Full Name">
-          <Input />
+          <Input name="fullName" onChange={handleFormData}/>
         </Form.Item>
         <Form.Item label="Email">
-          <Input />
+          <Input name="email" onChange={handleFormData}/>
         </Form.Item>
         <Form.Item label="Password">
-          <Input type="password" />
+          <Input name="password" type="password" onChange={handleFormData}/>
         </Form.Item>
         <Form.Item
           label="Upload"
@@ -82,7 +104,9 @@ const Registration = () => {
           </Upload>
         </Form.Item>
         <Form.Item>
-          <Button onClick={handleSubmit}>Button</Button>
+          {loader ? <Spin /> :<Button onClick={handleSubmit}>Button</Button>}
+          
+          
         </Form.Item>
       </Form>
     </Card>
