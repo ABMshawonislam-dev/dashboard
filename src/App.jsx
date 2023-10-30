@@ -16,6 +16,7 @@ function App() {
     createRoutesFromElements(
       <Route>
         <Route path="/registration" element={<Registration />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/" element={<Home />}>
           <Route path="/addproduct" element={<AddProduct />}></Route>
           <Route path="/allproduct" element={<AllProduct />}></Route>

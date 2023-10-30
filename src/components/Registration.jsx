@@ -105,8 +105,6 @@ const Registration = () => {
         </Form.Item>
         <Form.Item>
           {loader ? <Spin /> :<Button onClick={handleSubmit}>Button</Button>}
-          
-          
         </Form.Item>
       </Form>
     </Card>
