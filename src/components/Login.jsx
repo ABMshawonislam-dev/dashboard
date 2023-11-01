@@ -21,14 +21,22 @@ const Login = () => {
             password: regData.password,
           }
         )
+
+        
     
         if(data.data.error){
     
           setError(data.data.error);
           setLoader(false)
         }else{
-          setSuccess(data.data.success)
+          
           setLoader(false)
+          if(data.data.role == "member"){
+
+            setError("This login is only for admin and merchant");
+          }else{
+            setSuccess(data.data.success)
+          }
         }
     
       };

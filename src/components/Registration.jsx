@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Upload, Card, Alert, Space,Spin  } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 const Registration = () => {
+  let navigate = useNavigate()
   const [componentSize, setComponentSize] = useState("default");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -37,6 +39,7 @@ const Registration = () => {
       setLoader(false)
     }else{
       setSuccess(data.data.success)
+      navigate(`/otp/${data.data.email}`)
       setLoader(false)
     }
 
