@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Upload, Card, Alert, Space,Spin  } from "antd";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     const [componentSize, setComponentSize] = useState("default");
@@ -85,6 +86,9 @@ const Login = () => {
         <Form.Item>
           {loader ? <Spin /> :<Button onClick={handleSubmit}>Button</Button>}
         </Form.Item>
+        <Link to={"/forgotpassword"}>
+          <Alert message="Forgot Password?" type="info" />
+        </Link>
       </Form>
     </Card>
   )
