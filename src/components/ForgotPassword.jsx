@@ -23,9 +23,6 @@ const ForgotPassword = () => {
             email: regData.email,
           }
         )
-
-        
-    
         if(data.data.error){
     
           setError(data.data.error);
