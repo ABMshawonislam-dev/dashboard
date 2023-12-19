@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Upload, Card, Alert, Space,Spin  } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -110,6 +110,9 @@ const Registration = () => {
           {loader ? <Spin /> :<Button onClick={handleSubmit}>Button</Button>}
         </Form.Item>
       </Form>
+      <Link to={"/login"}>
+          <Alert message="Already have an account then click" type="info" />
+        </Link>
     </Card>
   );
 };
