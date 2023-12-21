@@ -71,6 +71,13 @@ const Home = () => {
         getItem("Category", "12"),
         getItem("Sub Category", "13"),
       ]),
+    {
+      type: "divider",
+    },
+    getItem("Approve Status", "sub7", <AppstoreOutlined />, [
+      getItem("Category", "/categorystatus"),
+      getItem("Sub Category", "15"),
+    ]),
   ];
 
   const onClick = (e) => {
