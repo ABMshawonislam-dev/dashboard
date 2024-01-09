@@ -15,6 +15,8 @@ import OtpPage from "./components/OtpPage";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import CategoryStatus from "./components/CategoryStatus";
+import SubCategoryStatus from "./components/SubCategoryStatus";
+import CategoryApprove from "./components/CategoryApprove";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -29,6 +31,11 @@ function App() {
           <Route path="/allproduct" element={<AllProduct />}></Route>
           <Route path="/allvariant" element={<AllVariant />}></Route>
           <Route path="/categorystatus" element={<CategoryStatus />}></Route>
+          <Route
+            path="/subcategorystatus"
+            element={<SubCategoryStatus />}
+          ></Route>
+          <Route path="/categoryapprove" element={<CategoryApprove />}></Route>
           <Route path="*" element={<Error />}></Route>
         </Route>
       </Route>
